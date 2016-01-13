@@ -34,17 +34,19 @@
           <form action="" method="get" class="form-horizontal">
             <div class="form-group">
               <label for="ticker">Quote Lookup</label>
-              <input type="text" class="form-control" id="ticker" placeholder="Enter a ticker">
+              <input type="text" class="form-control" id="ticker" name="ticker" placeholder="Enter a ticker">
            </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        <?php
+           $ticker = $_GET["ticker"];
+           echo "<img src=\"http://chart.finance.yahoo.com/z?s=". $ticker . "\">";
+         ?>
         </div>
         <div class="col-md-6">
           <h2>News</h2>
         </div>
-      </div>
-
-    
+      </div> 
      </div>
 
     <!-- /.container -->
