@@ -11,7 +11,12 @@
     <title>Final Project</title>
 
     <script src="../fabric.js-1.6.0-rc.1/dist/fabric.js"></script>
-
+    <script type="text/javascript">   
+      function cursor() {
+        document.getElementById("ticker").focus();
+        document.getElementById("ticker ").select();
+      }
+    </script>
     <!-- Bootstrap core CSS -->
     <link href="../bootstrap-3.3.5/docs/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -22,32 +27,100 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body onload="cursor()">
 
     <div class="container text-center">
-
-      <h1>Stock Performance and Twitter News</h1>
-
-      <div class="row">
-        <div class="col-md-6">
-        <h2>Stock Info</h2>
-          <form action="" method="get" class="form-horizontal">
+     
+      <h1>Quotes & Headlines</h1> <br>
+        <div class="row">
+          <form action="" method="get" class="form-inline">
             <div class="form-group">
-              <label for="ticker">Quote Lookup</label>
-              <input type="text" class="form-control" id="ticker" name="ticker" placeholder="Enter a ticker">
-           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        <?php
-           $ticker = $_GET["ticker"];
-           echo "<img src=\"http://chart.finance.yahoo.com/z?s=". $ticker . "\">";
-         ?>
-        </div>
-        <div class="col-md-6">
-          <h2>News</h2>
-        </div>
-      </div> 
-     </div>
+              <!--<label for="ticker">Quote Lookup</label>-->
+              <input type="text" required class="form-control" id="ticker" name="ticker" placeholder="Enter a ticker">
+            </div>
+            <div class="form-group">
+              <label for="timespan">Time Span</label>
+              <select id="timespan" name="timespan" class="form-control">
+                <option>1 Day</option>
+                <option>5 Days</option>
+                <option>3 Months</option>
+                <option>6 Months</option>
+                <option>1 Year</option>
+                <option>2 Years</option>
+                <option>5 Years</option>
+                <option>Maximum</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="chartType">Chart Type</label>
+              <select id="chartType" name="chartType" class="form-control">
+                <option>Line</option>
+                <option>Bar</option>
+                <option>Candle</option>
+              </select>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="log"> Logarithmic Scale
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Go</button>
+          </form>
+        </div><br>
+        <div class="row">
+          <div class="col-md-6">
+            <h3>Summary</h3>
+            <?php
+              $ticker = strtoupper($_GET["ticker"]);
+              $timespan = $_GET["timespan"];
+              if ($timespan == "1 Day") {
+                $timespan = "1d";
+              }
+              if ($timespan == "5 Days") {
+                $timespan = "5d";
+              }
+              if ($timespan == "3 Months") {
+                $timespan = "3m";
+              }
+              if ($timespan == "6 Months") {
+                $timespan = "6m";
+              }
+              if ($timespan == "1 Year") {
+                $timespan = "1y";
+              }
+              if ($timespan == "2 Years") {
+                $timespan = "2y";
+              }
+              if ($timespan == "5 Years") {
+                $timespan = "5y";
+              }
+              if ($timespan == "Maximum") {
+                $timespan = "my";
+              }
+              $chartType = $_GET["chartType"];
+              if($chartType=="Line"){
+                $chartType = "l";
+              }
+              if($chartType=="Bar"){
+                $chartType = "b";
+              }
+              if($chartType=="Candle"){
+                $chartType = "c";
+              }
+
+              $log="off";
+              if(isset($_GET["log"])== true)
+                $log = "on";
+              if($ticker != "")
+                echo "<img src=\"http://chart.finance.yahoo.com/z?s=". $ticker ."&t=".$timespan."&q=". $chartType ."&l=" . $log. "\">";
+            ?>
+          </div>
+          <div class="col-md-6">
+            <h3>Headlines</h3>
+          </div>
+        </div> <br>
+      <a href="../">Back to home</a>
+    </div>
 
     <!-- /.container -->
 
